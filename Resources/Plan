@@ -1,0 +1,86 @@
+
+1. The "Hostess" Screen (Managing Tables)
+Imagine a digital map of your restaurant. This screen helps the person at the front door seat customers.
+•	How it works: Each table on the screen is a button.
+•	Colors: If a table is Green, it's empty. If it's Red, people are eating there. Blue would mean it is a reserved table.
+•	Action: When a customer arrives, the hostess taps a table to "check them in."
+•	Database link: This screen talks to your Mesa (Table) and Reserva (Reservation) lists.
+2. The "Server" Screen (Taking Orders)
+This is what the waiters use. It looks like a fast-food menu with big buttons.
+•	How it works: The waiter taps "Hamburger" or "Soda."
+•	Safety: If someone is allergic to gluten, the waiter can hit a "Gluten-Free" button, and the app will hide everything they can't eat.
+•	The Ticket: As they tap, the app adds up the price automatically so the waiter doesn't have to do math.
+•	Database link: This screen uses your Menu and Orden (Order) lists.
+3. The "Manager" Screen (Watching the Food)
+This is for the boss to see if the restaurant is running out of food.
+•	The Magic Part: Every time a waiter sells a hamburger, the app "whispers" to the inventory: "Hey, we just used one bun and one beef patty, please subtract them from the shelf."
+•	Alerts: If you only have 2 tomatoes left, the screen will flash Yellow to tell the boss to buy more.
+•	Database link: This screen uses your Inventario (Inventory) and Receta (Recipe) lists.
+
+--------------------------------------------------------------------------------------------------------
+Detailed View: The Hostess Screen (Floor Management)
+ 
+What it looks like:
+A big digital map that looks exactly like your restaurant's physical layout. Each table is a large, easy-to-tap button.
+The Color Coding (The "Traffic Light" System):
+•	🟢 Green (Disponible): These tables are empty. The hostess can seat someone here immediately.
+•	🔴 Red (Ocupada): People are currently sitting here and eating. The hostess knows not to send anyone to these tables.
+•	🔵 Blue (Reservada): This is our new addition! This table is blocked because someone called ahead. Even if it looks empty, the hostess knows it’s saved for later.
+How it works (Step-by-Step):
+1.	Greeting: A customer walks in.
+2.	Checking the Map: The hostess looks at the screen for a Green table.
+3.	The "Check-In": The hostess taps the Green table button.
+o	A small window pops up asking: "Start new order for Table 5?" * They hit "Yes."
+4.	The Update: The table instantly turns Red on everyone’s screen (including the waiters' screens) so they know it’s now busy.
+The "Smart" Connection (Behind the Scenes):
+•	Reservation Sync: Every morning, the app checks the Reserva list in your database. If there is a booking for 2:00 PM, at 1:30 PM that table automatically turns Blue so nobody else sits there by mistake.
+•	Automatic Cleaning: When a waiter finishes a payment on the Server Screen, the table on the Hostess Screen turns Green again automatically.
+The "Waitlist" Timer
+If all the tables are Red or Blue, we could add a little clock icon in the corner.
+•	It shows the hostess how long people have been sitting at each table (e.g., "Table 4 has been eating for 45 minutes").
+•	This helps the hostess tell a waiting customer: "It will be about a 10-minute wait!"
+
+--------------------------------------------------------------------------------------------------------
+Detailed View: The Server Screen (Taking Orders)
+ 
+What it looks like: Imagine a screen divided into two halves. On the right, there are big, colorful buttons for food categories. On the left, there is a digital "receipt" that lists everything the customer is ordering.
+The Main Features:
+•	Big Buttons (Quick Tap): Instead of typing "Hamburger," the waiter just taps a big icon that says "Burgers." This opens a sub-menu with your specific items from the Menu table, like "Classic Burger" or "Veggie Burger."
+•	Smart Safety Filters: This is a key part of your database.
+o	Gluten-Free / Vegan Buttons: At the top of the screen, there are "Safety Toggles."
+o	If the waiter taps "Gluten-Free," the screen instantly hides every item that contains gluten.
+o	This helps the waiter tell the customer, "Here is exactly what you can safely eat!"
+•	The "Spicy" Meter: For items like tacos or wings, a small pop-up appears asking for the nivel_picante (Spicy Level: 1 to 5). The waiter taps the number the customer wants.
+How it works (Step-by-Step):
+1.	Selecting the Table: The waiter taps a Red table on their screen to open the bill.
+2.	Adding Items: They tap "Soda" and then "Cheeseburger."
+o	The app instantly pulls the price from your database and adds it to the total.
+3.	Sending to Kitchen: The waiter hits a big green "SEND" button.
+o	This creates the Orden (Order) in your database and tells the kitchen what to cook.
+4.	The Live Receipt: The customer can see their total growing in real-time, so there are no surprises when the bill arrives.
+The "Smart" Connection (Behind the Scenes):
+•	Inventory Check: If the kitchen runs out of "Fish Tacos," the button on this screen automatically turns Grey and becomes un-clickable. This prevents the waiter from selling something the restaurant doesn't have.
+•	Employee Tracking: Because the waiter had to "Log In," the app knows exactly which Empleado (Employee) took the order.
+The "Split Bill" Button
+Sometimes a big group wants to pay separately. We can add a button that automatically takes the Detalle_Orden (the list of food) and divides the total by the number of people at the table.
+
+--------------------------------------------------------------------------------------------------------
+Detailed View: The Manager Screen (Inventory & Money)
+What it looks like: A dashboard with progress bars and lists. Instead of colorful food buttons, it has charts that show what is happening in the kitchen and the bank account.
+The Main Features:
+•	The "Magic" Inventory Countdown: * This is the part we talked about earlier. Because your database has a Receta (Recipe) table, the manager doesn't have to count steaks or buns.
+o	The app does it automatically! Every time a "Server" screen finishes a sale, this screen updates the numbers in real-time.
+•	Low Stock "Traffic Lights":
+o	🔴 Red: Out of stock! (e.g., 0 tomatoes). The app puts this at the top of the list.
+o	🟡 Yellow: Running low. (e.g., Only 5 sodas left). This is your early warning.
+o	🟢 Green: Plenty of stock.
+•	Supplier Quick-Call: Next to every low-stock item, there is a button to contact the Proveedor (Supplier). One tap sends an email or order to get more food delivered.
+•	Money Tracker: A simple graph showing how much money was made today using the Pago table.
+How it works (Step-by-Step):
+1.	Morning Check: The manager opens the app and looks at the Yellow alerts. They see they are low on "Carne de res" (Beef).
+2.	The Sale: Throughout the day, as waiters sell burgers, the manager sees the beef bar slowly move down.
+3.	End of Day: The manager clicks on the "Reports" button. The app pulls data from Empleado and Orden to show who the best waiter was today.
+4.	Payroll: The manager uses the Pago_Empleado section to see who needs to be paid this week based on their hours worked.
+The "Smart" Connection (Behind the Scenes):
+•	Auto-Order: If you want to be really fancy, the app can be set to "Auto-Order." When the milk hits 2 cartons, it automatically sends a message to the dairy supplier!
+•	Waste Tracking: If a cook drops a plate, the manager can hit a "Waste" button to manually subtract 1 item from the inventory so the numbers stay perfect.
